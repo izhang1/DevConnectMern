@@ -11,7 +11,7 @@ import Login from "./components/auth/Login";
 // Redux
 import { Provider } from 'react-redux'; // Connects react to redux
 import store from './store';
-
+import { createStore, applyMiddleware } from "redux";
 
 class App extends Component {
   render() {

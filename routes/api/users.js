@@ -29,7 +29,7 @@ router.post("/register", (req, res) => {
 
   // Check validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({ errors: Object.entries(errors) });
   }
 
   User.findOne({ email: req.body.email }).then(user => {
@@ -115,7 +115,7 @@ router.post("/login", (req, res) => {
 // @desc  Login the user/ return JWT token
 // @access private
 router.get(
-  "/current",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.json({
