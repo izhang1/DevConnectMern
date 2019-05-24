@@ -2,8 +2,10 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
-  AUTH_ERROR
+  AUTH_ERROR,
+  SET_CURRENT_USER
 } from '../actions/types'
+import isEmpty from '../validation/is-empty';
 
 const initialState = {
   token: localStorage.getItem('token'), // Token that we get back, local storage
@@ -38,6 +40,12 @@ export default function(state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false
+      }
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload
       }
     default: 
       return state;
