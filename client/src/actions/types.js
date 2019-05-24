@@ -6,3 +6,4 @@ export const REGISTER_FAIL = 'register_fail';
 
 export const USER_LOADED = 'user_loaded';
 export const AUTH_ERROR = 'auth_error';
+export const GET_ERRORS = 'get_errors';
