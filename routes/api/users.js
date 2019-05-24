@@ -71,6 +71,7 @@ router.post("/login", (req, res) => {
 
   // Check validation
   if (!isValid) {
+    console.log("Errors: " + errors);
     return res.status(400).json(errors);
   }
 

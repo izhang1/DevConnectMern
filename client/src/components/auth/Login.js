@@ -1,68 +1,108 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
+import classnames from 'classnames';
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
+class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      errors: {}
+    }
+  }
 
-  const { email, password } = formData;
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
 
-  const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if(nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
-  const onSubmit = async e => {
+  onSubmit = e => {
     e.preventDefault();
-    console.log("Hello");
-  };
 
-  return (
-    <div>
-      <div class="register">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 m-auto">
-              <h1 class="display-4 text-center">Login</h1>
-              <p class="lead text-center">Sign into your account</p>
-              <form onSubmit={e => onSubmit(e)}>
-                <div class="form-group">
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    this.props.loginUser(userData);
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  render(){
+    const { errors } = this.state;
+
+    return (
+      <div className="login">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8 m-auto">
+              <h1 className="display-4 text-center">Log In</h1>
+              <p className="lead text-center">
+                Sign in to your DevConnector account
+              </p>
+              <form onSubmit={this.onSubmit}>
+                <div className="form-group">
                   <input
                     type="email"
-                    class="form-control form-control-lg"
+                    className={classnames('form-control form-control-lg', {
+                      'is-invalid': errors.email
+                    })}
                     placeholder="Email Address"
                     name="email"
-                    value={email}
-                    onChange={e => onChange(e)}
-                    required
+                    value={this.state.email}
+                    onChange={this.onChange}
                   />
-                  <small className="form-text text-muted">
-                    This site uses Gravatar so if you want a profile image, use
-                    a Gravatar email
-                  </small>
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                   <input
                     type="password"
-                    class="form-control form-control-lg"
+                    className={classnames('form-control form-control-lg', {
+                      'is-invalid': errors.password
+                    })}
                     placeholder="Password"
                     name="password"
-                    value={password}
-                    onChange={e => onChange(e)}
+                    value={this.state.password}
+                    onChange={this.onChange}
                   />
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
-                <input type="submit" class="btn btn-info btn-block mt-4" />
-                <p className="my-1">
-                  Don't have an account? <Link to="/register">Sign In</Link>
-                </p>
+                <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default Login;
+    );
+  }
+}
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);
