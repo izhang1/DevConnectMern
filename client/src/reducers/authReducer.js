@@ -2,7 +2,6 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
-  AUTH_ERROR,
   SET_CURRENT_USER
 } from '../actions/types'
 import isEmpty from '../validation/is-empty';

@@ -2,7 +2,6 @@ import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 import {
-  REGISTER_SUCCESS,
   SET_CURRENT_USER,
   USER_LOADED,
   AUTH_ERROR,
