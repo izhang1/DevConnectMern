@@ -15,6 +15,8 @@ import Alert from "./components/layout/Alert";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from './components/dashboard/dashboard';
+import CreateProfile from './components/create-profile/CreateProfile';
+
 // Redux
 import { Provider } from 'react-redux'; // Connects react to redux
 import store from './store';
@@ -53,6 +55,7 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/create-profile" component={CreateProfile} />
               </Switch>
             </section>
             <Footer />
