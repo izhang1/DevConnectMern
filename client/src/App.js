@@ -5,6 +5,9 @@ import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import "./App.css";
+
+import PrivateRoute from './components/commons/PrivateRoute';
+
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
@@ -49,7 +52,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
             </section>
             <Footer />
